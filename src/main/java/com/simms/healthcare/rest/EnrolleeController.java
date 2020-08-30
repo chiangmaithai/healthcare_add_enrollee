@@ -31,6 +31,7 @@ public class EnrolleeController {
 		ResponseMessage response = new ResponseMessage();
 		
 		response = enrolleeHandler.handle(requestMessage);
+
 		response.setMessageId(Util.getNewId());
 		response.setCreateDate(LocalDateTime.now());
 		

@@ -52,17 +52,17 @@ public class EnrolleeHandler {
 		
 		switch (requestCode) {
 		case ADD_ENROLLEE:
-			response = handleAddEnrollee(request, response);
+			response = handleAddEnrollee(request, response); break;
 		case MODIFY_ENROLLEE:
-			response = handleModifyEnrollee(request, response);
+			response = handleModifyEnrollee(request, response); break;
 		case REMOVE_ENROLLEE:
-			response = handleRemoveEnrollee(request, response);
+			response = handleRemoveEnrollee(request, response); break;
 		case ADD_DEPENDENT:
-			response = handleAddDependent(request, response);
+			response = handleAddDependent(request, response); break;
 		case MODIFY_DEPENDENT:
-			response = handleModifyDependent(request, response);
+			response = handleModifyDependent(request, response); break;
 		case REMOVE_DEPENDENT:
-			response = handleRemoveDependent(request, response);
+			response = handleRemoveDependent(request, response); break;
 		}
 		
 		return response;

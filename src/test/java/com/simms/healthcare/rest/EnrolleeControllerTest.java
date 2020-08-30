@@ -53,7 +53,7 @@ public class EnrolleeControllerTest {
     	d1.setDependentId(Util.getNewId());			
 		d1.setName(dependentName1);
     	d1.setBirthdDate(20200101);
-		d1.setSsn("001394823");
+		d1.setSsn("101394823");
     	
 		Dependents d2 = new Dependents();
     	d2.setDependentId(Util.getNewId());
@@ -79,6 +79,8 @@ public class EnrolleeControllerTest {
 		 HttpHeaders headers = new HttpHeaders();
 		    headers.setContentType(MediaType.APPLICATION_JSON);
 		
+		System.out.println(requestMessage);
+		    
 		HttpEntity<RequestMessage> request = new HttpEntity<>(requestMessage, headers);
 		String response = this.restTemplate.postForObject("http://localhost:" + port + "/process-enrollee", 
 				requestMessage, String.class);
