@@ -9,6 +9,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -36,6 +37,291 @@ public class EnrolleeServiceTest {
 	@Autowired
 	private EnrolleeRepository enrolleeRepository;
 
+	
+	/**
+	 * Ensure Service can add dependents. 
+	 */
+	@Test
+	public void whenAddDependents_thenCorrect() {
+    	String name = "Susan Friday - " + new Date();
+    	String dependentName1 = "Phillip Carribean " + new Date();
+   	
+    	String id1 = Util.getNewId();
+    	
+		Dependents d1 = new Dependents();
+    	d1.setDependentId(id1);			
+		d1.setName(dependentName1);
+    	d1.setBirthdDate(20200101);
+		d1.setSsn("001394823");
+    	
+		List<Dependents> list = new ArrayList<Dependents>();
+		list.add(d1);
+    	
+    	Enrollee enrollee = new Enrollee();
+    	String enrolleeId = Util.getNewId();
+    	enrollee.setEnrolleeId(enrolleeId);
+    	enrollee.setName(name);
+    	enrollee.setActivationStatus(ActivationStatusCode.TRUE);
+    	enrollee.setBirthdDate(19900801);
+    	enrollee.setPhoneNumber("8137485545");
+    	enrollee.setSsn("087451254");
+    	enrollee.setDependentList(list);
+
+    	this.enrolleeRepository.save(enrollee);
+    	Enrollee member = this.enrolleeRepository.findByEnrolleeId(enrolleeId);
+    	
+    	//ensure enrollee exists
+    	assertNotNull(member);
+    	assertNotNull(member.getDependentList());
+    	assertTrue(!member.getDependentList().isEmpty());
+    	assertTrue(member.getDependentList().stream().anyMatch(dependent -> id1.equals(dependent.getDependentId())));
+    	
+    	// add new dependent
+    	String newName = "Karen Fish - " + new Date();   
+    	String id = Util.getNewId();
+    	String  newSSN = "777777775";
+		Dependents newD = new Dependents();
+		newD.setDependentId(id);			
+		newD.setName(newName);
+		newD.setBirthdDate(20201212);
+		newD.setSsn(newSSN);
+		
+		Enrollee updatedEnrollee = this.enrolleeService.addDependents(enrolleeId, newD);
+		
+		//search for new dependent
+    	assertNotNull(updatedEnrollee.getDependentList());
+    	assertTrue(!updatedEnrollee.getDependentList().isEmpty());
+    	assertTrue(updatedEnrollee.getDependentList().stream().anyMatch(dependent -> newSSN.equals(dependent.getSsn()
+    			)));
+    	
+	}			
+	
+	/**
+	 * Ensure Service can add dependents but duplicate dependents will not be added.
+	 */
+	@Test
+	public void whenAddDuplicateDependents_thenFail() {
+    	String name = "Susan Friday - " + new Date();
+    	String dependentName1 = "Phillip Carribean " + new Date();
+   	
+    	String id1 = Util.getNewId();
+    	
+		Dependents d1 = new Dependents();
+    	d1.setDependentId(id1);			
+		d1.setName(dependentName1);
+    	d1.setBirthdDate(20200101);
+		d1.setSsn("001394823");
+    	
+		List<Dependents> list = new ArrayList<Dependents>();
+		list.add(d1);
+    	
+    	Enrollee enrollee = new Enrollee();
+    	String enrolleeId = Util.getNewId();
+    	enrollee.setEnrolleeId(enrolleeId);
+    	enrollee.setName(name);
+    	enrollee.setActivationStatus(ActivationStatusCode.TRUE);
+    	enrollee.setBirthdDate(19900801);
+    	enrollee.setPhoneNumber("8137485545");
+    	enrollee.setSsn("087451254");
+    	enrollee.setDependentList(list);
+
+    	this.enrolleeRepository.save(enrollee);
+    	Enrollee member = this.enrolleeRepository.findByEnrolleeId(enrolleeId);
+    	
+    	//ensure enrollee exists
+    	assertNotNull(member);
+    	assertNotNull(member.getDependentList());
+    	assertTrue(!member.getDependentList().isEmpty());
+    	assertTrue(member.getDependentList().stream().anyMatch(dependent -> id1.equals(dependent.getDependentId())));
+    	
+    	// add new dependent
+    	String newName = "Karen Fish - " + new Date();   
+    	String id = Util.getNewId();
+    	String  newSSN = "001394823"; //duplicate ssn
+		Dependents newD = new Dependents();
+		newD.setDependentId(id);			
+		newD.setName(newName);
+		newD.setBirthdDate(20201212);
+		newD.setSsn(newSSN);
+		
+		Enrollee updatedEnrollee = this.enrolleeService.addDependents(enrolleeId, newD);
+		
+		//search for new dependent, there should only be 1 dependent
+    	assertNotNull(updatedEnrollee.getDependentList());
+    	assertTrue(!updatedEnrollee.getDependentList().isEmpty());
+    	assertTrue(updatedEnrollee.getDependentList().size() == 1);
+    	assertTrue(updatedEnrollee.getDependentList().stream().anyMatch(dependent -> newSSN.equals(dependent.getSsn()
+    			)));
+    	
+	}
+	
+	/**
+	 * Test Service can modify dependent.
+	 */
+	@Test
+	public void whenModifyingDependent_thenCorrect() {
+		
+    	String name = "Susan Friday - " + new Date();
+    	String dependentName1 = "Phillip Carribean " + new Date();
+   	
+    	String id1 = Util.getNewId();
+    	
+		Dependents d1 = new Dependents();
+    	d1.setDependentId(id1);			
+		d1.setName(dependentName1);
+    	d1.setBirthdDate(20200101);
+		d1.setSsn("001394823");
+    	
+		List<Dependents> list = new ArrayList<Dependents>();
+		list.add(d1);
+    	
+    	Enrollee enrollee = new Enrollee();
+    	String enrolleeId = Util.getNewId();
+    	enrollee.setEnrolleeId(enrolleeId);
+    	enrollee.setName(name);
+    	enrollee.setActivationStatus(ActivationStatusCode.TRUE);
+    	enrollee.setBirthdDate(19900801);
+    	enrollee.setPhoneNumber("8137485545");
+    	enrollee.setSsn("087451254");
+    	enrollee.setDependentList(list);
+
+    	this.enrolleeRepository.save(enrollee);
+    	Enrollee member = this.enrolleeRepository.findByEnrolleeId(enrolleeId);
+    	
+    	//ensure enrollee exists
+    	assertNotNull(member);
+    	assertNotNull(member.getDependentList());
+    	assertTrue(!member.getDependentList().isEmpty());
+    	assertTrue(member.getDependentList().stream().anyMatch(dependent -> id1.equals(dependent.getDependentId())));
+    	
+    	// add new dependent
+    	String newName = "Karen Fish - " + new Date();   
+    	String id = Util.getNewId();
+    	String  newSSN = "777777775";
+		Dependents newD = new Dependents();
+		newD.setDependentId(id);			
+		newD.setName(newName);
+		newD.setBirthdDate(20201212);
+		newD.setSsn(newSSN);
+		
+		Enrollee updatedEnrollee = this.enrolleeService.addDependents(enrolleeId, newD);
+				
+		//search for new dependent
+    	assertNotNull(updatedEnrollee.getDependentList());
+    	assertTrue(!updatedEnrollee.getDependentList().isEmpty());
+    	assertTrue(updatedEnrollee.getDependentList().stream().anyMatch(dependent -> newSSN.equals(dependent.getSsn()
+    			)));
+    	assertTrue(updatedEnrollee.getDependentList().stream().anyMatch(dependent -> newName.equals(dependent.getName()
+    			)));
+    	
+		
+    	//modify the dependent Karen to Donald
+		Dependents d2 = new Dependents();
+    	d2.setDependentId(id1);	
+    	d2.setSsn(newSSN);
+		d2.setName("Donald Truman");
+
+		Enrollee modifiedEnrollee = this.enrolleeService.modifyDependents(enrolleeId, d2);
+		
+		//search for modified dependent
+    	assertNotNull(modifiedEnrollee.getDependentList());
+    	assertTrue(!modifiedEnrollee.getDependentList().isEmpty());
+    	assertTrue(modifiedEnrollee.getDependentList().stream().anyMatch(
+    			dependent -> "Donald Truman".equals(dependent.getName())));
+	}
+	
+	
+	/**
+	 * Test Service can remove dependent.
+	 */
+	@Test
+	public void whenRemvoingDependent_thenCorrect() {
+		
+    	String name = "Susan Friday - " + new Date();
+    	String dependentName1 = "Phillip Carribean " + new Date();
+   	
+    	String id1 = Util.getNewId();
+    	String id2 = Util.getNewId();
+    	String id3 = Util.getNewId();
+    	
+		Dependents d1 = new Dependents();
+    	d1.setDependentId(id1);			
+		d1.setName(dependentName1 + " - 1");
+    	d1.setBirthdDate(20200101);
+		d1.setSsn("101394823");
+		
+		Dependents d2 = new Dependents();
+    	d2.setDependentId(id2);			
+		d2.setName(dependentName1 + " - 2");
+    	d2.setBirthdDate(20200101);
+		d2.setSsn("201394823");
+		
+		Dependents d3 = new Dependents();
+    	d3.setDependentId(id3);			
+		d3.setName(dependentName1 + " - 3");
+    	d3.setBirthdDate(20200101);
+		d3.setSsn("301394823");
+    	
+		List<Dependents> list = new ArrayList<Dependents>();
+		list.add(d3);
+		list.add(d1);
+		list.add(d2);
+    	
+    	Enrollee enrollee = new Enrollee();
+    	String enrolleeId = Util.getNewId();
+    	enrollee.setEnrolleeId(enrolleeId);
+    	enrollee.setName(name);
+    	enrollee.setActivationStatus(ActivationStatusCode.TRUE);
+    	enrollee.setBirthdDate(19900801);
+    	enrollee.setPhoneNumber("8137485545");
+    	enrollee.setSsn("087451254");
+    	enrollee.setDependentList(list);
+
+    	this.enrolleeRepository.save(enrollee);
+    	Enrollee member = this.enrolleeRepository.findByEnrolleeId(enrolleeId);
+    	
+    	//ensure enrollee exists
+    	assertNotNull(member);
+    	assertNotNull(member.getDependentList());
+    	assertTrue(!member.getDependentList().isEmpty());
+    	assertTrue(member.getDependentList().stream().anyMatch(dependent -> id1.equals(dependent.getDependentId())));
+    	
+    	// add new dependent
+    	String newName = "Karen Fish - " + new Date();   
+    	String id = Util.getNewId();
+    	String  newSSN = "777777775";
+		Dependents newD = new Dependents();
+		newD.setDependentId(id);			
+		newD.setName(newName);
+		newD.setBirthdDate(20201212);
+		newD.setSsn(newSSN);
+		
+		Enrollee updatedEnrollee = this.enrolleeService.addDependents(enrolleeId, newD);
+				
+		//search for new dependent
+    	assertNotNull(updatedEnrollee.getDependentList());
+    	assertTrue(!updatedEnrollee.getDependentList().isEmpty());
+    	assertTrue(updatedEnrollee.getDependentList().stream().anyMatch(dependent -> newSSN.equals(dependent.getSsn()
+    			)));
+    	assertTrue(updatedEnrollee.getDependentList().stream().anyMatch(dependent -> newName.equals(dependent.getName()
+    			)));
+    	
+    	List<Dependents> KarenDependentId = updatedEnrollee.getDependentList().stream().
+    			filter(d -> d.getName().startsWith("Karen")).collect(Collectors.toList());
+		assertNotNull(KarenDependentId);
+		assertTrue(KarenDependentId.size()==1);
+    	
+    	//now remove dependent
+		Enrollee modifiedEnrollee = this.enrolleeService.removeDependents(
+				enrolleeId, KarenDependentId.get(0).getDependentId());
+		
+		//search for modified dependent
+    	assertNotNull(modifiedEnrollee.getDependentList());
+    	assertTrue(!modifiedEnrollee.getDependentList().isEmpty());
+    	assertFalse(modifiedEnrollee.getDependentList().stream().anyMatch(
+    			dependent -> dependent.getName().startsWith("Karen")));
+	}
+	
 	/**
      * Ensure a enrollee can be modified.
      */

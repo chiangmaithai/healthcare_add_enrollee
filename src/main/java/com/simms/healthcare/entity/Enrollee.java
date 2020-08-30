@@ -41,7 +41,8 @@ public class Enrollee implements Serializable{
 		@GeneratedValue(strategy=GenerationType.AUTO)
 		private Long id;
 		
-		@NonNull 
+		@NonNull
+		@Column(unique=true, nullable=false)
 		private String enrolleeId;
 		
 		@NonNull
@@ -54,14 +55,17 @@ public class Enrollee implements Serializable{
 		 * Format yyyyMMdd
 		 */
 		@NonNull
+		@Column(length=8, nullable=false)
 		private Integer birthdDate;
 
 		/**
 		 * Any format
 		 */
+		@Column(nullable=true, length=25)
 		private String phoneNumber;
 		
 		@NonNull
+		@Column(unique=true, nullable=false, length=9)
 		private String ssn;
 		
 		@NonNull

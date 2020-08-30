@@ -44,9 +44,11 @@ public class Dependents implements Serializable{
 		 * Format yyyyMMdd
 		 */
 		@NonNull
+		@Column(length=8, nullable=false)
 		private Integer birthdDate;
 		
 		@NonNull
+		@Column(unique=true, nullable=false, length=9)
 		private String ssn;
 		
 		@NonNull
