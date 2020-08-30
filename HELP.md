@@ -1,14 +1,29 @@
-# Getting Started
+# Getting Started with Healthcare Micro Service
 
-### Reference Documentation
-For further reference, please consider the following sections:
+### Building Project
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.3.3.RELEASE/maven-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/2.3.3.RELEASE/maven-plugin/reference/html/#build-image)
+* Project build using maven: Run: mvn clean install
+* Starting app: Run: java -jar add_new_enrollee_demo-0.0.1-SNAPSHOT.jar
 
-### Guides
-The following guides illustrate how to use some features concretely:
+### Database Server
 
-* [Service Registration and Discovery](https://spring.io/guides/gs/service-registration-and-discovery/)
+* Database: hsqldb database server:
+* version: hsqldb-2.5.1 (http://hsqldb.org/)
+* Starting: Run: java -classpath lib/hsqldb.jar org.hsqldb.server.Server
 
+hsqldb server properties file. 
+* location: hsqldb-2.5.1\hsqldb
+* server.database.0=file:db0/db0
+* server.dbname.0=healthcare
+* server.port=8701
+
+
+### Eureka Server
+
+* https://github.com/chiangmaithai/healthcare.git
+* Project build using maven
+* Build: mvn clean install
+* Start application: Run:  java -jar service_registry_demo-0.0.1-SNAPSHOT.jar
+
+### Testing
+* Setup json post request to: http://localhost:8000/process-enrollee
