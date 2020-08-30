@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +20,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.simms.healthcare.businesslogic.ActivationStatusCode;
 import com.simms.healthcare.entity.Dependents;
 import com.simms.healthcare.entity.Enrollee;
 import com.simms.healthcare.repository.EnrolleeRepository;
@@ -86,7 +88,8 @@ public class EnrolleeServiceTest {
 		newD.setBirthdDate(20201212);
 		newD.setSsn(newSSN);
 		
-		Enrollee updatedEnrollee = this.enrolleeService.addDependents(enrolleeId, newD);
+		Dependents[] array = {newD};
+		Enrollee updatedEnrollee = this.enrolleeService.addDependents(enrolleeId, Arrays.asList(array));
 		
 		//search for new dependent
     	assertNotNull(updatedEnrollee.getDependentList());
@@ -144,7 +147,8 @@ public class EnrolleeServiceTest {
 		newD.setBirthdDate(20201212);
 		newD.setSsn(newSSN);
 		
-		Enrollee updatedEnrollee = this.enrolleeService.addDependents(enrolleeId, newD);
+		Dependents[] array = {newD};
+		Enrollee updatedEnrollee = this.enrolleeService.addDependents(enrolleeId, Arrays.asList(array));
 		
 		//search for new dependent, there should only be 1 dependent
     	assertNotNull(updatedEnrollee.getDependentList());
@@ -204,7 +208,8 @@ public class EnrolleeServiceTest {
 		newD.setBirthdDate(20201212);
 		newD.setSsn(newSSN);
 		
-		Enrollee updatedEnrollee = this.enrolleeService.addDependents(enrolleeId, newD);
+		Dependents[] array = {newD};
+		Enrollee updatedEnrollee = this.enrolleeService.addDependents(enrolleeId, Arrays.asList(array));
 				
 		//search for new dependent
     	assertNotNull(updatedEnrollee.getDependentList());
@@ -221,7 +226,8 @@ public class EnrolleeServiceTest {
     	d2.setSsn(newSSN);
 		d2.setName("Donald Truman");
 
-		Enrollee modifiedEnrollee = this.enrolleeService.modifyDependents(enrolleeId, d2);
+		Dependents[] array2 = {d2};
+		Enrollee modifiedEnrollee = this.enrolleeService.modifyDependents(enrolleeId, Arrays.asList(array2));
 		
 		//search for modified dependent
     	assertNotNull(modifiedEnrollee.getDependentList());
@@ -296,7 +302,8 @@ public class EnrolleeServiceTest {
 		newD.setBirthdDate(20201212);
 		newD.setSsn(newSSN);
 		
-		Enrollee updatedEnrollee = this.enrolleeService.addDependents(enrolleeId, newD);
+		Dependents[] array = { newD};
+		Enrollee updatedEnrollee = this.enrolleeService.addDependents(enrolleeId, Arrays.asList(array));
 				
 		//search for new dependent
     	assertNotNull(updatedEnrollee.getDependentList());
@@ -312,8 +319,9 @@ public class EnrolleeServiceTest {
 		assertTrue(KarenDependentId.size()==1);
     	
     	//now remove dependent
+		String[] array2 = {KarenDependentId.get(0).getDependentId()};
 		Enrollee modifiedEnrollee = this.enrolleeService.removeDependents(
-				enrolleeId, KarenDependentId.get(0).getDependentId());
+				enrolleeId, Arrays.asList(array2));
 		
 		//search for modified dependent
     	assertNotNull(modifiedEnrollee.getDependentList());
@@ -446,7 +454,8 @@ public class EnrolleeServiceTest {
 		assertTrue(member.getDependentList().stream().anyMatch(dependent -> id3.equals(dependent.getDependentId())));
 
 		// delete dependent with
-		Enrollee updatedEnrollee = this.enrolleeService.removeDependents(enrolleeId, id3);
+		String[] array = {id3};
+		Enrollee updatedEnrollee = this.enrolleeService.removeDependents(enrolleeId, Arrays.asList(array));
 
 		// verify dependent no longer exists - id3
 		assertNotNull(updatedEnrollee);
@@ -456,7 +465,8 @@ public class EnrolleeServiceTest {
 				.anyMatch(dependent -> id3.equals(dependent.getDependentId())));
 
 		// delete 2 more dependents - id1 and id4
-		updatedEnrollee = this.enrolleeService.removeDependents(enrolleeId, id1, id4);
+		String[] array2 = {id1, id4};
+		updatedEnrollee = this.enrolleeService.removeDependents(enrolleeId, Arrays.asList(array2));
 		assertNotNull(updatedEnrollee.getDependentList());
 		assertTrue(updatedEnrollee.getDependentList().size() == 1);
 		assertTrue(updatedEnrollee.getDependentList().get(0).getDependentId().equals(id2));

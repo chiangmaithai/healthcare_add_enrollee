@@ -1,4 +1,4 @@
-package com.simms.healthcare.service;
+package com.simms.healthcare.businesslogic;
 
 /**
  * Enrollee activation status.

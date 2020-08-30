@@ -19,9 +19,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.simms.healthcare.ServiceApplication;
+import com.simms.healthcare.businesslogic.ActivationStatusCode;
 import com.simms.healthcare.entity.Dependents;
 import com.simms.healthcare.entity.Enrollee;
-import com.simms.healthcare.service.ActivationStatusCode;
 import com.simms.healthcare.service.EnrolleeService;
 import com.simms.healthcare.util.Util;
 

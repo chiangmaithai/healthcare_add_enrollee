@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.simms.healthcare.businesslogic.ActivationStatusCode;
 import com.simms.healthcare.entity.Dependents;
 import com.simms.healthcare.entity.Enrollee;
 import com.simms.healthcare.repository.EnrolleeRepository;
@@ -31,12 +32,12 @@ public class EnrolleeService {
 	 * @return the updated enrollee with dependents added or null if no enrollee was found
 	 */
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public Enrollee addDependents(String enrolleeId, Dependents... dependents) {
+	public Enrollee addDependents(String enrolleeId, List<Dependents> dependents) {
 		Enrollee enrollee = null;
 		if (dependents != null && enrolleeId != null) {
 			enrollee = this.enrolleeRepository.findByEnrolleeId(enrolleeId);
 			if (enrollee != null && enrollee.getDependentList() != null) {
-				List<Dependents> newDependents = Arrays.asList(dependents);
+				List<Dependents> newDependents = dependents;
 				List<String> currentSSNList = new ArrayList<String>();
 				enrollee.getDependentList().stream().forEach(d -> currentSSNList.add(d.getSsn()));
 				//if dependent is already a member, then remove dependent from list
@@ -58,7 +59,7 @@ public class EnrolleeService {
 	 * @return new Enrollee with modified dependents or null if no enrollee was found
 	 */
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public Enrollee modifyDependents(String enrolleeId, Dependents... dependentList) {
+	public Enrollee modifyDependents(String enrolleeId, List<Dependents> dependentList) {
 		Enrollee enrollee = null;
 
 		if (enrolleeId != null && dependentList != null) {		
@@ -66,7 +67,7 @@ public class EnrolleeService {
 			enrollee = this.enrolleeRepository.findByEnrolleeId(enrolleeId);
 			if (enrollee != null) {								
 				// create map of dependentList with key = ssn
-				Map<String, Dependents> dMap = Arrays.asList(dependentList).stream().collect(
+				Map<String, Dependents> dMap = dependentList.stream().collect(
 						Collectors.toMap(Dependents::getSsn, d -> d));
 				
 				for (Dependents d : enrollee.getDependentList()) {
@@ -100,14 +101,14 @@ public class EnrolleeService {
 	 * @return new Enrollee or null/empty if enrollee cannot be found.
 	 */
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public Enrollee removeDependents(String enrolleeId, String... dependentId) {
+	public Enrollee removeDependents(String enrolleeId, List<String> dependentId) {
 		Enrollee enrollee = null;
-		if (enrolleeId != null && (dependentId != null && dependentId.length>0)) {
+		if (enrolleeId != null && (dependentId != null && dependentId.size()>0)) {
 			enrollee = this.enrolleeRepository.findByEnrolleeId(enrolleeId);
 			if (enrollee != null) {
 				//if dependentId isn't in list of dependents to remove, then add to new list of dependents
 				List<Dependents> list = enrollee.getDependentList().stream().filter(
-						d -> !(Arrays.asList(dependentId).contains(d.getDependentId()))).collect(Collectors.toList());
+						d -> !(dependentId.contains(d.getDependentId()))).collect(Collectors.toList());
 				//add new dependent list to enrollee and save
 				enrollee.setDependentList(list);
 				enrollee = this.enrolleeRepository.save(enrollee);
@@ -135,7 +136,7 @@ public class EnrolleeService {
 	 * @param enrolleeId enrollee id.
 	 * @return number or rows removed
 	 */
-	public long removeEnrolleeById(String... enrolleeId) {
+	public long removeEnrolleeById(List<String> enrolleeId) {
 		long count = 0;
 		
 		if (enrolleeId != null) {

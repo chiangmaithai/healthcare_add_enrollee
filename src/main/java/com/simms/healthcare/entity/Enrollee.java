@@ -16,7 +16,7 @@ import javax.persistence.Version;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
-import com.simms.healthcare.service.ActivationStatusCode;
+import com.simms.healthcare.businesslogic.ActivationStatusCode;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -36,6 +36,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class Enrollee implements Serializable{
+
+		/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5663316888621088761L;
 
 		@Id
 		@GeneratedValue(strategy=GenerationType.AUTO)

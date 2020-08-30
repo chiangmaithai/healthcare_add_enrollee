@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import com.simms.healthcare.service.ActivationStatusCode;
+import com.simms.healthcare.businesslogic.ActivationStatusCode;
 
 /**
  * JPA converter for ActivationStatusCode.
