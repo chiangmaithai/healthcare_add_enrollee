@@ -123,6 +123,7 @@ public class EnrolleeService {
 	 * @param enrollee
 	 * @return enrollee or null if no save
 	 */
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public Enrollee saveEnrollee(Enrollee enrollee) {
 		Enrollee member = null;
 		if (enrollee != null && enrollee.getId() == null) {
@@ -136,6 +137,7 @@ public class EnrolleeService {
 	 * @param enrolleeId enrollee id.
 	 * @return number or rows removed
 	 */
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public long removeEnrolleeById(List<String> enrolleeId) {
 		long count = 0;
 		
@@ -159,6 +161,7 @@ public class EnrolleeService {
 	 * @return Enrollee updated enrollee or null/empty if enrollee cannot be found
 	 */
 	@Modifying(flushAutomatically = true)
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public Enrollee updateEnrollee(String enrolleeId, String name, ActivationStatusCode activationStatus, 
 			Integer birthdDate, String phoneNumber, String ssn) {
 		Enrollee enrollee = null;

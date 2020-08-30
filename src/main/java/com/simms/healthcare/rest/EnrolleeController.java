@@ -20,9 +20,14 @@ public class EnrolleeController {
 	@Autowired
 	private EnrolleeHandler enrolleeHandler;
 
-	@ResponseBody
-	@RequestMapping(value = "/process-enrollee", method = RequestMethod.POST)
-	public ResponseMessage processEnrollee(@RequestBody RequestMessage requestMessage) {
+	/**
+	 * Process an incoming enrollee request
+	 * @param requestMessage incoming request
+	 * @return response
+	 */
+	@RequestMapping(value = "/process-enrollee", method = RequestMethod.POST,
+			consumes = "application/json", produces = "application/json")
+	public @ResponseBody ResponseMessage processEnrollee(@RequestBody RequestMessage requestMessage) {
 		ResponseMessage response = new ResponseMessage();
 		
 		response = enrolleeHandler.handle(requestMessage);

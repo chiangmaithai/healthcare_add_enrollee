@@ -51,12 +51,10 @@ public class Dependents implements Serializable{
 		@Column(unique=true, nullable=false, length=9)
 		private String ssn;
 		
-		@NonNull
 		@Version
 		@Column(name="UPDATE_TS")
 		private LocalDateTime lastDateModified;
 		
-		@NonNull
 		@Column(name = "CREATION_TS", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
 			insertable=false, updatable=false)
 		private LocalDateTime createdDate;

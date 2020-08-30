@@ -1,9 +1,9 @@
 package com.simms.healthcare.repository;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,15 +16,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import com.simms.healthcare.ServiceApplication;
 import com.simms.healthcare.businesslogic.ActivationStatusCode;
 import com.simms.healthcare.entity.Dependents;
 import com.simms.healthcare.entity.Enrollee;
-import com.simms.healthcare.service.EnrolleeService;
 import com.simms.healthcare.util.Util;
 
+/**
+ * By default, tests annotated with @DataJpaTest are transactional and roll backat the end of each 
+ * test. They also use an embedded in-memory database (replacing anyexplicit or usually 
+ * auto-configured DataSource). The @AutoConfigureTestDatabase annotation can be used to
+ * override these settings. 
+ * @author thoma
+ *
+ */
 @DataJpaTest
 @AutoConfigureTestDatabase(replace=Replace.NONE)
 public class EnrolleeRepositoryTest {
