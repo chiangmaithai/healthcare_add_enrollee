@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -28,6 +29,7 @@ import com.simms.healthcare.util.Util;
  *
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@Profile("test")
 public class EnrolleeControllerTest {
 	
 	@LocalServerPort

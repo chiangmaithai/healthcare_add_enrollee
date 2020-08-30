@@ -16,9 +16,8 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Profile;
 
 import com.simms.healthcare.businesslogic.ActivationStatusCode;
 import com.simms.healthcare.entity.Dependents;
@@ -27,7 +26,8 @@ import com.simms.healthcare.repository.EnrolleeRepository;
 import com.simms.healthcare.util.Util;
 
 @SpringBootTest
-@AutoConfigureTestDatabase(replace = Replace.NONE)
+@Profile("test")
+//@AutoConfigureTestDatabase(replace = Replace.NONE)
 public class EnrolleeServiceTest {
 
 	private static final Logger log = LoggerFactory.getLogger(EnrolleeServiceTest.class);
@@ -53,7 +53,7 @@ public class EnrolleeServiceTest {
     	d1.setDependentId(id1);			
 		d1.setName(dependentName1);
     	d1.setBirthdDate(20200101);
-		d1.setSsn("001394823");
+		d1.setSsn("201394823");
     	
 		List<Dependents> list = new ArrayList<Dependents>();
 		list.add(d1);
@@ -65,7 +65,7 @@ public class EnrolleeServiceTest {
     	enrollee.setActivationStatus(ActivationStatusCode.TRUE);
     	enrollee.setBirthdDate(19900801);
     	enrollee.setPhoneNumber("8137485545");
-    	enrollee.setSsn("087451254");
+    	enrollee.setSsn("287451254");
     	enrollee.setDependentList(list);
 
     	this.enrolleeRepository.save(enrollee);
@@ -80,7 +80,7 @@ public class EnrolleeServiceTest {
     	// add new dependent
     	String newName = "Karen Fish - " + new Date();   
     	String id = Util.getNewId();
-    	String  newSSN = "777777775";
+    	String  newSSN = "377777775";
 		Dependents newD = new Dependents();
 		newD.setDependentId(id);			
 		newD.setName(newName);
@@ -173,7 +173,7 @@ public class EnrolleeServiceTest {
     	d1.setDependentId(id1);			
 		d1.setName(dependentName1);
     	d1.setBirthdDate(20200101);
-		d1.setSsn("001394823");
+		d1.setSsn("001664823");
     	
 		List<Dependents> list = new ArrayList<Dependents>();
 		list.add(d1);
@@ -185,7 +185,7 @@ public class EnrolleeServiceTest {
     	enrollee.setActivationStatus(ActivationStatusCode.TRUE);
     	enrollee.setBirthdDate(19900801);
     	enrollee.setPhoneNumber("8137485545");
-    	enrollee.setSsn("087451254");
+    	enrollee.setSsn("087555254");
     	enrollee.setDependentList(list);
 
     	this.enrolleeRepository.save(enrollee);
@@ -200,7 +200,7 @@ public class EnrolleeServiceTest {
     	// add new dependent
     	String newName = "Karen Fish - " + new Date();   
     	String id = Util.getNewId();
-    	String  newSSN = "777777775";
+    	String  newSSN = "776677775";
 		Dependents newD = new Dependents();
 		newD.setDependentId(id);			
 		newD.setName(newName);
@@ -253,19 +253,19 @@ public class EnrolleeServiceTest {
     	d1.setDependentId(id1);			
 		d1.setName(dependentName1 + " - 1");
     	d1.setBirthdDate(20200101);
-		d1.setSsn("101394823");
+		d1.setSsn("101377723");
 		
 		Dependents d2 = new Dependents();
     	d2.setDependentId(id2);			
 		d2.setName(dependentName1 + " - 2");
     	d2.setBirthdDate(20200101);
-		d2.setSsn("201394823");
+		d2.setSsn("205594823");
 		
 		Dependents d3 = new Dependents();
     	d3.setDependentId(id3);			
 		d3.setName(dependentName1 + " - 3");
     	d3.setBirthdDate(20200101);
-		d3.setSsn("301394823");
+		d3.setSsn("301377823");
     	
 		List<Dependents> list = new ArrayList<Dependents>();
 		list.add(d3);
@@ -279,7 +279,7 @@ public class EnrolleeServiceTest {
     	enrollee.setActivationStatus(ActivationStatusCode.TRUE);
     	enrollee.setBirthdDate(19900801);
     	enrollee.setPhoneNumber("8137485545");
-    	enrollee.setSsn("087451254");
+    	enrollee.setSsn("087345254");
     	enrollee.setDependentList(list);
 
     	this.enrolleeRepository.save(enrollee);
@@ -294,7 +294,7 @@ public class EnrolleeServiceTest {
     	// add new dependent
     	String newName = "Karen Fish - " + new Date();   
     	String id = Util.getNewId();
-    	String  newSSN = "777777775";
+    	String  newSSN = "777333775";
 		Dependents newD = new Dependents();
 		newD.setDependentId(id);			
 		newD.setName(newName);
@@ -343,7 +343,7 @@ public class EnrolleeServiceTest {
     	d1.setDependentId(id1);			
 		d1.setName(dependentName1);
     	d1.setBirthdDate(20200101);
-		d1.setSsn("001394823");
+		d1.setSsn("091394823");
     	
 		List<Dependents> list = new ArrayList<Dependents>();
 		list.add(d1);
@@ -355,7 +355,7 @@ public class EnrolleeServiceTest {
     	enrollee.setActivationStatus(ActivationStatusCode.TRUE);
     	enrollee.setBirthdDate(19900801);
     	enrollee.setPhoneNumber("8137485545");
-    	enrollee.setSsn("087451254");
+    	enrollee.setSsn("089451254");
     	enrollee.setDependentList(list);
 
     	this.enrolleeRepository.save(enrollee);
@@ -368,7 +368,7 @@ public class EnrolleeServiceTest {
     	assertTrue(member.getDependentList().stream().anyMatch(dependent -> id1.equals(dependent.getDependentId())));
     	
     	// modify
-    	String newSSn = "111111111";
+    	String newSSn = "111110111";
     	String newName = "Tony Jones";
     	ActivationStatusCode newStatus = ActivationStatusCode.FALSE;
     	Integer newBirth = Integer.valueOf(20200901);
@@ -407,25 +407,25 @@ public class EnrolleeServiceTest {
 		d1.setDependentId(id1);
 		d1.setName(dependentName1);
 		d1.setBirthdDate(20200101);
-		d1.setSsn("001394823");
+		d1.setSsn("021324823");
 
 		Dependents d2 = new Dependents();
 		d2.setDependentId(id2);
 		d2.setName(dependentName2);
 		d2.setBirthdDate(20200101);
-		d2.setSsn("001394824");
+		d2.setSsn("031334824");
 
 		Dependents d3 = new Dependents();
 		d3.setDependentId(id3);
 		d3.setName(dependentName3);
 		d3.setBirthdDate(20200101);
-		d3.setSsn("001394825");
+		d3.setSsn("041394825");
 
 		Dependents d4 = new Dependents();
 		d4.setDependentId(id4);
 		d4.setName(dependentName4);
 		d4.setBirthdDate(20200101);
-		d4.setSsn("001394826");
+		d4.setSsn("051394526");
 
 		List<Dependents> list = new ArrayList<Dependents>();
 		list.add(d1);
@@ -440,7 +440,7 @@ public class EnrolleeServiceTest {
 		enrollee.setActivationStatus(ActivationStatusCode.TRUE);
 		enrollee.setBirthdDate(19900801);
 		enrollee.setPhoneNumber("8137485545");
-		enrollee.setSsn("087451254");
+		enrollee.setSsn("087651254");
 		enrollee.setDependentList(list);
 
 		this.enrolleeRepository.save(enrollee);

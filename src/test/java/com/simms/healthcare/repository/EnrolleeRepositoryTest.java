@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Profile;
 
 import com.simms.healthcare.businesslogic.ActivationStatusCode;
 import com.simms.healthcare.entity.Dependents;
@@ -31,7 +32,6 @@ import com.simms.healthcare.util.Util;
  *
  */
 @DataJpaTest
-@AutoConfigureTestDatabase(replace=Replace.NONE)
 public class EnrolleeRepositoryTest {
 
 	private static final Logger log = LoggerFactory.getLogger(EnrolleeRepositoryTest.class);
