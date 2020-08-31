@@ -27,8 +27,6 @@ public class ResponseMessage implements Serializable {
 	
 	private String responseMessage;
 	
-	private Long numberRecordsUpdated = 0L;
-	
 	private Enrollee enrollee;
 	
 	private LocalDateTime createDate;

@@ -4,6 +4,7 @@
 * Github: https://github.com/chiangmaithai/healthcare_add_enrollee.git
 * Project build using maven: Run: mvn clean install
 * Starting app: Run: java -jar add_new_enrollee_demo-0.0.1-SNAPSHOT.jar
+* Application listens on port: 8000
 
 ### Database Server
 * Database: hsqldb database server:
@@ -22,6 +23,7 @@
 * Project build using maven
 * Build: mvn clean install
 * Start application: Run:  java -jar service_registry_demo-0.0.1-SNAPSHOT.jar
+* Eureka server listens on port 8761
 
 ### Testing
 * Setup json post request to: http://localhost:8000/process-enrollee

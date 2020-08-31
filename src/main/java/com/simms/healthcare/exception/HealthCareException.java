@@ -25,7 +25,7 @@ public class HealthCareException extends ResponseEntityExceptionHandler {
 		  
 		  ResponseMessage bodyOfResponse = new ResponseMessage();
 		  bodyOfResponse.setCreateDate(LocalDateTime.now());
-		  bodyOfResponse.setMessageId(Util.getNewId());
+		  bodyOfResponse.setMessageId(Util.generateNewEnrollmentId());
 		  bodyOfResponse.setResponseMessage("Only exposing for demo: " + ex.getLocalizedMessage());
 		  
         return handleExceptionInternal(ex, bodyOfResponse, 

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,8 @@ import com.simms.healthcare.service.EnrolleeService;
 
 @Service
 public class EnrolleeHandler {
+	
+	private static final Logger log = LoggerFactory.getLogger(EnrolleeHandler.class);
 
 	@Autowired
 	private EnrolleeService enrolleeService;
@@ -116,8 +120,7 @@ public class EnrolleeHandler {
 	private ResponseMessage handleRemoveEnrollee(RequestMessage request, ResponseMessage response) {
 		List<String> enrolleeId = new ArrayList<String>();
 		enrolleeId.add(request.getEnrollee().getEnrolleeId());
-		long count = this.enrolleeService.removeEnrolleeById(enrolleeId);
-		response.setNumberRecordsUpdated(count);
+		this.enrolleeService.removeEnrolleeById(enrolleeId);
 		return response;
 	}
 
@@ -130,7 +133,7 @@ public class EnrolleeHandler {
 	private ResponseMessage handleModifyEnrollee(RequestMessage request, ResponseMessage response) {
 		Enrollee updateEnrollee =  this.enrolleeService.updateEnrollee(request.getEnrollee().getEnrolleeId(), 
 				request.getEnrollee().getName(), request.getEnrollee().getActivationStatus(), 
-				request.getEnrollee().getBirthdDate(), request.getEnrollee().getPhoneNumber(), 
+				request.getEnrollee().getBirthDate(), request.getEnrollee().getPhoneNumber(), 
 				request.getEnrollee().getSsn());
 	    response.setEnrollee(updateEnrollee);
 		return response;
@@ -142,7 +145,7 @@ public class EnrolleeHandler {
 	 * @param response
 	 * @return response
 	 */
-	private ResponseMessage handleAddEnrollee(RequestMessage request, ResponseMessage response) {
+	private ResponseMessage handleAddEnrollee(RequestMessage request, ResponseMessage response) {		
 		Enrollee updateEnrollee = this.enrolleeService.saveEnrollee(request.getEnrollee());
 	    response.setEnrollee(updateEnrollee);
 		return response;

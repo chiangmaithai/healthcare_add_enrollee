@@ -45,7 +45,7 @@ public class Dependents implements Serializable{
 		 */
 		@NonNull
 		@Column(length=8, nullable=false)
-		private Integer birthdDate;
+		private Integer birthDate;
 		
 		@NonNull
 		@Column(unique=true, nullable=false, length=9)
