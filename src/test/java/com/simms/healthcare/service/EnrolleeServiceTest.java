@@ -48,23 +48,23 @@ public class EnrolleeServiceTest {
     	String name = "Susan Friday - " + new Date();
     	String dependentName1 = "Phillip Carribean " + new Date();
    	
-    	String id1 = Util.getNewId();
+    	String id1 = Util.generateNewEnrollmentId();
     	
 		Dependents d1 = new Dependents();
     	d1.setDependentId(id1);			
 		d1.setName(dependentName1);
-    	d1.setBirthdDate(20200101);
+    	d1.setBirthDate(20200101);
 		d1.setSsn("201394823");
     	
 		List<Dependents> list = new ArrayList<Dependents>();
 		list.add(d1);
     	
     	Enrollee enrollee = new Enrollee();
-    	String enrolleeId = Util.getNewId();
+    	String enrolleeId = Util.generateNewEnrollmentId();
     	enrollee.setEnrolleeId(enrolleeId);
     	enrollee.setName(name);
     	enrollee.setActivationStatus(ActivationStatusCode.TRUE);
-    	enrollee.setBirthdDate(19900801);
+    	enrollee.setBirthDate(19900801);
     	enrollee.setPhoneNumber("8137485545");
     	enrollee.setSsn("287451254");
     	enrollee.setDependentList(list);
@@ -80,12 +80,12 @@ public class EnrolleeServiceTest {
     	
     	// add new dependent
     	String newName = "Karen Fish - " + new Date();   
-    	String id = Util.getNewId();
+    	String id = Util.generateNewEnrollmentId();
     	String  newSSN = "377777775";
 		Dependents newD = new Dependents();
 		newD.setDependentId(id);			
 		newD.setName(newName);
-		newD.setBirthdDate(20201212);
+		newD.setBirthDate(20201212);
 		newD.setSsn(newSSN);
 		
 		Dependents[] array = {newD};
@@ -107,23 +107,23 @@ public class EnrolleeServiceTest {
     	String name = "Susan Friday - " + new Date();
     	String dependentName1 = "Phillip Carribean " + new Date();
    	
-    	String id1 = Util.getNewId();
+    	String id1 = Util.generateNewEnrollmentId();
     	
 		Dependents d1 = new Dependents();
     	d1.setDependentId(id1);			
 		d1.setName(dependentName1);
-    	d1.setBirthdDate(20200101);
+    	d1.setBirthDate(20200101);
 		d1.setSsn("001394823");
     	
 		List<Dependents> list = new ArrayList<Dependents>();
 		list.add(d1);
     	
     	Enrollee enrollee = new Enrollee();
-    	String enrolleeId = Util.getNewId();
+    	String enrolleeId = Util.generateNewEnrollmentId();
     	enrollee.setEnrolleeId(enrolleeId);
     	enrollee.setName(name);
     	enrollee.setActivationStatus(ActivationStatusCode.TRUE);
-    	enrollee.setBirthdDate(19900801);
+    	enrollee.setBirthDate(19900801);
     	enrollee.setPhoneNumber("8137485545");
     	enrollee.setSsn("087451254");
     	enrollee.setDependentList(list);
@@ -139,12 +139,12 @@ public class EnrolleeServiceTest {
     	
     	// add new dependent
     	String newName = "Karen Fish - " + new Date();   
-    	String id = Util.getNewId();
+    	String id = Util.generateNewEnrollmentId();
     	String  newSSN = "001394823"; //duplicate ssn
 		Dependents newD = new Dependents();
 		newD.setDependentId(id);			
 		newD.setName(newName);
-		newD.setBirthdDate(20201212);
+		newD.setBirthDate(20201212);
 		newD.setSsn(newSSN);
 		
 		Dependents[] array = {newD};
@@ -168,23 +168,23 @@ public class EnrolleeServiceTest {
     	String name = "Susan Friday - " + new Date();
     	String dependentName1 = "Phillip Carribean " + new Date();
    	
-    	String id1 = Util.getNewId();
+    	String id1 = Util.generateNewEnrollmentId();
     	
 		Dependents d1 = new Dependents();
     	d1.setDependentId(id1);			
 		d1.setName(dependentName1);
-    	d1.setBirthdDate(20200101);
+    	d1.setBirthDate(20200101);
 		d1.setSsn("001664823");
     	
 		List<Dependents> list = new ArrayList<Dependents>();
 		list.add(d1);
     	
     	Enrollee enrollee = new Enrollee();
-    	String enrolleeId = Util.getNewId();
+    	String enrolleeId = Util.generateNewEnrollmentId();
     	enrollee.setEnrolleeId(enrolleeId);
     	enrollee.setName(name);
     	enrollee.setActivationStatus(ActivationStatusCode.TRUE);
-    	enrollee.setBirthdDate(19900801);
+    	enrollee.setBirthDate(19900801);
     	enrollee.setPhoneNumber("8137485545");
     	enrollee.setSsn("087555254");
     	enrollee.setDependentList(list);
@@ -200,12 +200,12 @@ public class EnrolleeServiceTest {
     	
     	// add new dependent
     	String newName = "Karen Fish - " + new Date();   
-    	String id = Util.getNewId();
+    	String id = Util.generateNewEnrollmentId();
     	String  newSSN = "776677775";
 		Dependents newD = new Dependents();
 		newD.setDependentId(id);			
 		newD.setName(newName);
-		newD.setBirthdDate(20201212);
+		newD.setBirthDate(20201212);
 		newD.setSsn(newSSN);
 		
 		Dependents[] array = {newD};
@@ -246,26 +246,26 @@ public class EnrolleeServiceTest {
     	String name = "Susan Friday - " + new Date();
     	String dependentName1 = "Phillip Carribean " + new Date();
    	
-    	String id1 = Util.getNewId();
-    	String id2 = Util.getNewId();
-    	String id3 = Util.getNewId();
+    	String id1 = Util.generateNewEnrollmentId();
+    	String id2 = Util.generateNewEnrollmentId();
+    	String id3 = Util.generateNewEnrollmentId();
     	
 		Dependents d1 = new Dependents();
     	d1.setDependentId(id1);			
 		d1.setName(dependentName1 + " - 1");
-    	d1.setBirthdDate(20200101);
+    	d1.setBirthDate(20200101);
 		d1.setSsn("101377723");
 		
 		Dependents d2 = new Dependents();
     	d2.setDependentId(id2);			
 		d2.setName(dependentName1 + " - 2");
-    	d2.setBirthdDate(20200101);
+    	d2.setBirthDate(20200101);
 		d2.setSsn("205594823");
 		
 		Dependents d3 = new Dependents();
     	d3.setDependentId(id3);			
 		d3.setName(dependentName1 + " - 3");
-    	d3.setBirthdDate(20200101);
+    	d3.setBirthDate(20200101);
 		d3.setSsn("301377823");
     	
 		List<Dependents> list = new ArrayList<Dependents>();
@@ -274,11 +274,11 @@ public class EnrolleeServiceTest {
 		list.add(d2);
     	
     	Enrollee enrollee = new Enrollee();
-    	String enrolleeId = Util.getNewId();
+    	String enrolleeId = Util.generateNewEnrollmentId();
     	enrollee.setEnrolleeId(enrolleeId);
     	enrollee.setName(name);
     	enrollee.setActivationStatus(ActivationStatusCode.TRUE);
-    	enrollee.setBirthdDate(19900801);
+    	enrollee.setBirthDate(19900801);
     	enrollee.setPhoneNumber("8137485545");
     	enrollee.setSsn("087345254");
     	enrollee.setDependentList(list);
@@ -294,12 +294,12 @@ public class EnrolleeServiceTest {
     	
     	// add new dependent
     	String newName = "Karen Fish - " + new Date();   
-    	String id = Util.getNewId();
+    	String id = Util.generateNewEnrollmentId();
     	String  newSSN = "777333775";
 		Dependents newD = new Dependents();
 		newD.setDependentId(id);			
 		newD.setName(newName);
-		newD.setBirthdDate(20201212);
+		newD.setBirthDate(20201212);
 		newD.setSsn(newSSN);
 		
 		Dependents[] array = { newD};
@@ -338,23 +338,23 @@ public class EnrolleeServiceTest {
     	String name = "Brain Cross - " + new Date();
     	String dependentName1 = "Tom Jones1 " + new Date();
    	
-    	String id1 = Util.getNewId();
+    	String id1 = Util.generateNewEnrollmentId();
     	
 		Dependents d1 = new Dependents();
     	d1.setDependentId(id1);			
 		d1.setName(dependentName1);
-    	d1.setBirthdDate(20200101);
+    	d1.setBirthDate(20200101);
 		d1.setSsn("091394823");
     	
 		List<Dependents> list = new ArrayList<Dependents>();
 		list.add(d1);
     	
     	Enrollee enrollee = new Enrollee();
-    	String enrolleeId = Util.getNewId();
+    	String enrolleeId = Util.generateNewEnrollmentId();
     	enrollee.setEnrolleeId(enrolleeId);
     	enrollee.setName(name);
     	enrollee.setActivationStatus(ActivationStatusCode.TRUE);
-    	enrollee.setBirthdDate(19900801);
+    	enrollee.setBirthDate(19900801);
     	enrollee.setPhoneNumber("8137485545");
     	enrollee.setSsn("089451254");
     	enrollee.setDependentList(list);
@@ -382,7 +382,7 @@ public class EnrolleeServiceTest {
     	assertEquals(newSSn, updatedEnrollee.getSsn());
     	assertEquals(newName, updatedEnrollee.getName());
     	assertEquals(newStatus.getCode(), updatedEnrollee.getActivationStatus().getCode());
-    	assertEquals(newBirth, updatedEnrollee.getBirthdDate());
+    	assertEquals(newBirth, updatedEnrollee.getBirthDate());
     	assertEquals(newPhone, updatedEnrollee.getPhoneNumber());
     	assertNotEquals(name, updatedEnrollee.getName());
     	
@@ -399,33 +399,33 @@ public class EnrolleeServiceTest {
 		String dependentName3 = "Kim Jones3 " + new Date();
 		String dependentName4 = "Kim Jones4 " + new Date();
 
-		String id1 = Util.getNewId();
-		String id2 = Util.getNewId();
-		String id3 = Util.getNewId();
-		String id4 = Util.getNewId();
+		String id1 = Util.generateNewEnrollmentId();
+		String id2 = Util.generateNewEnrollmentId();
+		String id3 = Util.generateNewEnrollmentId();
+		String id4 = Util.generateNewEnrollmentId();
 
 		Dependents d1 = new Dependents();
 		d1.setDependentId(id1);
 		d1.setName(dependentName1);
-		d1.setBirthdDate(20200101);
+		d1.setBirthDate(20200101);
 		d1.setSsn("021324823");
 
 		Dependents d2 = new Dependents();
 		d2.setDependentId(id2);
 		d2.setName(dependentName2);
-		d2.setBirthdDate(20200101);
+		d2.setBirthDate(20200101);
 		d2.setSsn("031334824");
 
 		Dependents d3 = new Dependents();
 		d3.setDependentId(id3);
 		d3.setName(dependentName3);
-		d3.setBirthdDate(20200101);
+		d3.setBirthDate(20200101);
 		d3.setSsn("041394825");
 
 		Dependents d4 = new Dependents();
 		d4.setDependentId(id4);
 		d4.setName(dependentName4);
-		d4.setBirthdDate(20200101);
+		d4.setBirthDate(20200101);
 		d4.setSsn("051394526");
 
 		List<Dependents> list = new ArrayList<Dependents>();
@@ -435,11 +435,11 @@ public class EnrolleeServiceTest {
 		list.add(d4);
 
 		Enrollee enrollee = new Enrollee();
-		String enrolleeId = Util.getNewId();
+		String enrolleeId = Util.generateNewEnrollmentId();
 		enrollee.setEnrolleeId(enrolleeId);
 		enrollee.setName(name);
 		enrollee.setActivationStatus(ActivationStatusCode.TRUE);
-		enrollee.setBirthdDate(19900801);
+		enrollee.setBirthDate(19900801);
 		enrollee.setPhoneNumber("8137485545");
 		enrollee.setSsn("087651254");
 		enrollee.setDependentList(list);

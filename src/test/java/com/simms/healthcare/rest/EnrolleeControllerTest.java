@@ -52,15 +52,15 @@ public class EnrolleeControllerTest {
     	String dependentName2 = "Corey Jones";   	  
     	
 		Dependents d1 = new Dependents();
-    	d1.setDependentId(Util.getNewId());			
+    	d1.setDependentId(Util.generateNewEnrollmentId());			
 		d1.setName(dependentName1);
-    	d1.setBirthdDate(20200101);
+    	d1.setBirthDate(20200101);
 		d1.setSsn("101394823");
     	
 		Dependents d2 = new Dependents();
-    	d2.setDependentId(Util.getNewId());
+    	d2.setDependentId(Util.generateNewEnrollmentId());
 		d2.setName(dependentName2);
-    	d2.setBirthdDate(20200101);
+    	d2.setBirthDate(20200101);
 		d2.setSsn("001394824");
     	
 		List<Dependents> list = new ArrayList<Dependents>();
@@ -68,10 +68,10 @@ public class EnrolleeControllerTest {
 		list.add(d2);
     	
     	Enrollee enrollee = new Enrollee();
-    	enrollee.setEnrolleeId(Util.getNewId());
+    	enrollee.setEnrolleeId(Util.generateNewEnrollmentId());
     	enrollee.setName(name);
     	enrollee.setActivationStatus(ActivationStatusCode.TRUE);
-    	enrollee.setBirthdDate(19900801);
+    	enrollee.setBirthDate(19900801);
     	enrollee.setPhoneNumber("8137485545");
     	enrollee.setSsn("087451254");
     	enrollee.setDependentList(list);

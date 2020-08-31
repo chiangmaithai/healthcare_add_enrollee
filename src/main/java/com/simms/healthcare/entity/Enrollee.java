@@ -61,7 +61,7 @@ public class Enrollee implements Serializable{
 		 */
 		@NonNull
 		@Column(length=8, nullable=false)
-		private Integer birthdDate;
+		private Integer birthDate;
 
 		/**
 		 * Any format

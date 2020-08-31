@@ -1,11 +1,12 @@
 package com.simms.healthcare.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
@@ -16,9 +17,13 @@ import com.simms.healthcare.businesslogic.ActivationStatusCode;
 import com.simms.healthcare.entity.Dependents;
 import com.simms.healthcare.entity.Enrollee;
 import com.simms.healthcare.repository.EnrolleeRepository;
+import com.simms.healthcare.util.Util;
 
 @Service
 public class EnrolleeService {
+	
+	private static final Logger log = LoggerFactory.getLogger(EnrolleeService.class);
+
 	
 	@Autowired
 	private EnrolleeRepository enrolleeRepository; 
@@ -28,22 +33,38 @@ public class EnrolleeService {
 	 * by checking dependent ssn. If dependent is already a member, then dependent won't be added,
 	 * that dependent should be modified
 	 * @param enrolleeId enrollee id.
-	 * @param dependents one or more dependents to add
+	 * @param newDependentsFromRequest one or more dependents to add
 	 * @return the updated enrollee with dependents added or null if no enrollee was found
 	 */
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public Enrollee addDependents(String enrolleeId, List<Dependents> dependents) {
+	@Modifying(flushAutomatically = true)
+	@Transactional (propagation = Propagation.REQUIRES_NEW)
+	public Enrollee addDependents(String enrolleeId, List<Dependents> newDependentsFromRequest) {
 		Enrollee enrollee = null;
-		if (dependents != null && enrolleeId != null) {
+		if (newDependentsFromRequest != null && enrolleeId != null) {
 			enrollee = this.enrolleeRepository.findByEnrolleeId(enrolleeId);
-			if (enrollee != null && enrollee.getDependentList() != null) {
-				List<Dependents> newDependents = dependents;
-				List<String> currentSSNList = new ArrayList<String>();
-				enrollee.getDependentList().stream().forEach(d -> currentSSNList.add(d.getSsn()));
+			if (enrollee != null) {
+				if (enrollee.getDependentList() == null) {
+					enrollee.setDependentList(new ArrayList<Dependents>());
+				}
+				
+				List<Dependents> newDependents = newDependentsFromRequest;
+				List<String> currentDependentsSSN = new ArrayList<String>();
+				//add current dependents ssn to currentDependentsSSN list, so we can filter out
+				//any new dependent that is already in the database
+				enrollee.getDependentList().stream().forEach(d -> currentDependentsSSN.add(d.getSsn()));
 				//if dependent is already a member, then remove dependent from list
-				List<Dependents> newDependentsToAdd = newDependents.stream().filter(d -> !currentSSNList.contains(d.getSsn())).collect(Collectors.toList());
+				List<Dependents> newDependentsToAdd = newDependents.stream().filter(d -> !currentDependentsSSN.contains(d.getSsn())).collect(Collectors.toList());
+				//just verified that all newDependentsToAdd are not current dependents in the database
+				//now we can add these dependents to the database
 				if (newDependentsToAdd != null) {
-					enrollee.getDependentList().addAll(newDependentsToAdd);
+					for (Dependents newMember : newDependentsToAdd) {
+						Dependents d = new Dependents();
+						d.setDependentId(Util.generateNewEnrollmentId());
+						d.setName(newMember.getName());
+						d.setBirthDate(newMember.getBirthDate());
+						d.setSsn(newMember.getSsn());
+						enrollee.getDependentList().add(d);
+					}
 				}
 				enrollee = this.enrolleeRepository.save(enrollee);
 			}
@@ -58,7 +79,8 @@ public class EnrolleeService {
 	 * @param dependentList list of dependents to modify, only dependents found will be modified.
 	 * @return new Enrollee with modified dependents or null if no enrollee was found
 	 */
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	@Modifying(flushAutomatically = true)
+	@Transactional (propagation = Propagation.REQUIRES_NEW)
 	public Enrollee modifyDependents(String enrolleeId, List<Dependents> dependentList) {
 		Enrollee enrollee = null;
 
@@ -79,8 +101,8 @@ public class EnrolleeService {
 							d.setName(dMap.get(key).getName());
 						}
 						
-						if (dMap.get(key).getBirthdDate() != null) {
-							d.setBirthdDate(dMap.get(key).getBirthdDate());
+						if (dMap.get(key).getBirthDate() != null) {
+							d.setBirthDate(dMap.get(key).getBirthDate());
 						}
 
 					}
@@ -100,7 +122,8 @@ public class EnrolleeService {
 	 * @param dependentId one or more dependent ids to remove.
 	 * @return new Enrollee or null/empty if enrollee cannot be found.
 	 */
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	@Modifying(flushAutomatically = true)
+	@Transactional (propagation = Propagation.REQUIRES_NEW)
 	public Enrollee removeDependents(String enrolleeId, List<String> dependentId) {
 		Enrollee enrollee = null;
 		if (enrolleeId != null && (dependentId != null && dependentId.size()>0)) {
@@ -123,10 +146,32 @@ public class EnrolleeService {
 	 * @param enrollee
 	 * @return enrollee or null if no save
 	 */
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public Enrollee saveEnrollee(Enrollee enrollee) {
+	@Modifying(flushAutomatically = true)
+	@Transactional (propagation = Propagation.REQUIRES_NEW)
+	public Enrollee saveEnrollee(Enrollee enrolleeRequest) {
 		Enrollee member = null;
-		if (enrollee != null && enrollee.getId() == null) {
+		if (enrolleeRequest != null) {
+			//get data from request and insert enrollee
+			Enrollee enrollee = new Enrollee();
+			enrollee.setName(enrolleeRequest.getName());
+			enrollee.setActivationStatus(enrolleeRequest.getActivationStatus());
+			enrollee.setBirthDate(enrolleeRequest.getBirthDate());
+			enrollee.setPhoneNumber(enrolleeRequest.getPhoneNumber());
+			enrollee.setSsn(enrolleeRequest.getSsn());
+			enrollee.setEnrolleeId(Util.generateNewEnrollmentId());
+
+			if (enrolleeRequest.getDependentList() != null && !enrolleeRequest.getDependentList().isEmpty()) {
+				enrollee.setDependentList(new ArrayList<Dependents>());
+				for (Dependents dependent : enrolleeRequest.getDependentList()) {
+					Dependents newDependent = new Dependents();
+					newDependent.setBirthDate(dependent.getBirthDate());
+					newDependent.setName(dependent.getName());
+					newDependent.setSsn(dependent.getSsn());
+					newDependent.setDependentId(Util.generateNewEnrollmentId());
+					enrollee.getDependentList().add(newDependent);
+				}
+			}
+			
 			member = this.enrolleeRepository.save(enrollee);
 		}
 		return member;
@@ -137,7 +182,8 @@ public class EnrolleeService {
 	 * @param enrolleeId enrollee id.
 	 * @return number or rows removed
 	 */
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	@Modifying(flushAutomatically = true)
+	@Transactional (propagation = Propagation.REQUIRES_NEW)
 	public long removeEnrolleeById(List<String> enrolleeId) {
 		long count = 0;
 		
@@ -161,7 +207,7 @@ public class EnrolleeService {
 	 * @return Enrollee updated enrollee or null/empty if enrollee cannot be found
 	 */
 	@Modifying(flushAutomatically = true)
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	@Transactional (propagation = Propagation.REQUIRES_NEW)
 	public Enrollee updateEnrollee(String enrolleeId, String name, ActivationStatusCode activationStatus, 
 			Integer birthdDate, String phoneNumber, String ssn) {
 		Enrollee enrollee = null;
@@ -173,7 +219,7 @@ public class EnrolleeService {
 				 }
 				 enrollee.setActivationStatus(activationStatus);
 				 if(birthdDate != null) {
-					 enrollee.setBirthdDate(birthdDate);
+					 enrollee.setBirthDate(birthdDate);
 				 }
 				 if(phoneNumber != null && phoneNumber.length()>0) {
 					 enrollee.setPhoneNumber(phoneNumber);

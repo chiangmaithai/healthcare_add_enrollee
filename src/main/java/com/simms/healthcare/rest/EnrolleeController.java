@@ -2,6 +2,8 @@ package com.simms.healthcare.rest;
 
 import java.time.LocalDateTime;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,9 @@ import com.simms.healthcare.util.Util;
 
 @RestController
 public class EnrolleeController {		
+	
+	private static final Logger log = LoggerFactory.getLogger(EnrolleeController.class);
+
 	
 	@Autowired
 	private EnrolleeHandler enrolleeHandler;
@@ -32,7 +37,7 @@ public class EnrolleeController {
 		
 		response = enrolleeHandler.handle(requestMessage);
 
-		response.setMessageId(Util.getNewId());
+		response.setMessageId(Util.generateNewEnrollmentId());
 		response.setCreateDate(LocalDateTime.now());
 		
 		return response;
